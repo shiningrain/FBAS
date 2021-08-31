@@ -1,0 +1,6 @@
+{% comment %} suggest use tf-gpu==2.3 to get gradient {% endcomment %}
+Keras==2.3.1
+tensorflow==2.4.1
+autokeras=1.0.12
+kerastuner=1.0.2
+matplotlib==3.3.0
