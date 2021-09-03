@@ -10,7 +10,7 @@ import argparse
 import os
 os.environ["CUDA_VISIBLE_DEVICES"] = ""
 from autokeras.engine import compute_gradient as cg
-from keras.models import load_model
+from tensorflow.keras.models import load_model
 import numpy as np
 import pickle
 import tensorflow

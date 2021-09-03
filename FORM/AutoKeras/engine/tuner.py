@@ -26,7 +26,7 @@ from autokeras import pipeline as pipeline_module
 from autokeras.utils import data_utils
 from autokeras.utils import utils
 
-import keras
+import tensorflow.keras as keras
 import pickle
 import numpy as np
 

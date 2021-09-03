@@ -7,8 +7,8 @@ Description: In User Settings Edit
 FilePath: /test_codes/utils/data.py
 '''
 import numpy as np
-import keras
-from keras.datasets import mnist,cifar10,fashion_mnist,cifar100
+import tensorflow.keras as keras
+from tensorflow.keras.datasets import mnist,cifar10,fashion_mnist,cifar100
 import tensorflow
 
 def mnist_load_data():

@@ -7,14 +7,14 @@ Description: In User Settings Edit
 FilePath: /test_codes/utils/operation_test_utils.py
 '''
 import pickle
-import keras
-from keras.models import load_model
+import tensorflow.keras as keras
+from tensorflow.keras.models import load_model
 import autokeras as ak
 
 import os
 os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 import argparse
-from keras.datasets import mnist,cifar10
+from tensorflow.keras.datasets import mnist,cifar10
 import time
 import gc
 import numpy as np

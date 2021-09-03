@@ -8,8 +8,8 @@ FilePath: /test_codes/utils/load_test_utils.py
 '''
 
 import pickle
-import keras
-from keras.models import load_model
+import tensorflow.keras as keras
+from tensorflow.keras.models import load_model
 import autokeras as ak
 
 import os
@@ -18,7 +18,7 @@ import sys
 sys.path.append('./utils')
 from operation_test_utils import modify_model
 import argparse
-from keras.datasets import mnist,cifar10
+from tensorflow.keras.datasets import mnist,cifar10
 import time
 import gc
 import numpy as np
@@ -29,7 +29,6 @@ import string
 import kerastuner
 import tensorflow as tf
 from kerastuner.engine import hypermodel as hm_module
-# from autokeras.engine import compute_gradient as cg # use autokeras env
 import pandas as pd
 
 import matplotlib.pyplot as plt  
@@ -115,10 +114,7 @@ def gradient_norm(gradient_list):
     norm_kernel_list=[]
     norm_bias_list=[]
     for i in range(int(len(gradient_list)/2)):
-        # average_kernel_list.append(np.mean(np.abs(gradient_list[2*i])))
-        # average_bias_list.append(np.mean(np.abs(gradient_list[2*i+1])))
         norm_kernel_list.append(np.linalg.norm(np.array(gradient_list[2*i])))
-        # norm_bias_list.append(np.linalg.norm(np.array(gradient_list[2*i+1])))
     return norm_kernel_list#,norm_bias_list
 
 def gradient_zero_radio(gradient_list):
@@ -310,11 +306,6 @@ def check_move(save_dir):
             if tmp_num>=num:
                 new_save_dir=d
                 num=tmp_num
-        # uuid_name=str(uuid.uuid3(uuid.NAMESPACE_DNS,str(time.time())))[-12:]
-        # new_save_dir=os.path.join(new_root_dir,uuid_name)
-        # import shutil
-        # shutil.move(save_dir,new_save_dir)
-        # return new_save_dir
     return new_save_dir
 
 def is_number(s):
@@ -384,7 +375,6 @@ def read_opt(model,read_path='./Test_dir/tmp/tmp_action_value.pkl'):
         else:
             print('Type Error')
             os._exit(0)
-        # os.remove(read_path)
         model.compile(loss=loss, optimizer=opt, metrics=['accuracy'])
     return model
 
@@ -411,7 +401,4 @@ def write_algw(root_dir):
     out_file = open(out_path, 'w')
     out_file.write('logs\n')
     run_cmd=command.format(root_dir)
-    # try:
-    # subprocess.call(run_cmd, shell=True, stdout=out_file, stderr=out_file)
     subprocess.Popen(run_cmd, shell=True, stdout=out_file, stderr=out_file)
-    pass

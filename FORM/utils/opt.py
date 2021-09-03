@@ -4,27 +4,27 @@ sys.path.append('.')
 # from utils import has_NaN
 import matplotlib.pyplot as plt
 import numpy as np
-import keras
+import tensorflow.keras as keras
 import datetime
-from keras.models import load_model,Sequential
-import keras.backend as K
+from tensorflow.keras.models import load_model,Sequential
+import tensorflow.keras.backend as K
 import tensorflow as tf
 import copy
 
-from keras.models import load_model
-from keras.models import Model
-from keras.activations import relu,sigmoid,elu,linear,selu
-from keras.regularizers import l2,l1,l1_l2
-from keras.layers import BatchNormalization,GaussianNoise,Dropout
-from keras.layers import Activation,Add,Dense
-from keras.layers.core import Lambda
-from keras.initializers import he_uniform,glorot_uniform,zeros
-from keras.callbacks import ReduceLROnPlateau
-from keras.optimizers import SGD, Adam, Adamax
-import keras.optimizers as O
-import keras.layers as L
-import keras.activations as A
-import keras.initializers as I
+from tensorflow.keras.models import load_model
+from tensorflow.keras.models import Model
+from tensorflow.keras.activations import relu,sigmoid,elu,linear,selu
+from tensorflow.keras.regularizers import l2,l1,l1_l2
+from tensorflow.keras.layers import BatchNormalization,GaussianNoise,Dropout
+from tensorflow.keras.layers import Activation,Add,Dense
+from tensorflow.keras.layers.core import Lambda
+from tensorflow.keras.initializers import he_uniform,glorot_uniform,zeros
+from tensorflow.keras.callbacks import ReduceLROnPlateau
+from tensorflow.keras.optimizers import SGD, Adam, Adamax
+import tensorflow.keras.optimizers as O
+import tensorflow.keras.layers as L
+import tensorflow.keras.activations as A
+import tensorflow.keras.initializers as I
 
 tmp_model_path='./tmp_models'
 Insert_Layers=['dense','conv']
@@ -150,7 +150,7 @@ def modify_initializer(model,b_initializer=None,k_initializer=None):
                 new_config['bias_initializer']=b_initializer
                 new_layer=model.layers[i].__class__(**new_config)
                 model=replace_intermediate_layer_in_keras(model,i,new_layer)'''
-    # model=reload_model(model)
+    model=reload_model(model)
     return model
 
 def not_dense_acti(model,i):
@@ -166,13 +166,6 @@ def not_dense_acti(model,i):
         if advanced_list[j] in model.layers[i].get_config()['name']:
             return False
     return True
-
-def get_not_dense_list(model):
-    model_lenth=len(model.layers)
-    not_dense_list=[]
-    for i in range(model_lenth):
-        not_dense_list.append(not_dense_acti(model,i))
-    return not_dense_list
 
 def modify_activations(model,activation_name,method='normal'):#https://github.com/keras-team/keras/issues/9370
     #重写该函数，针对特定层包过batchnorm的情况
@@ -191,23 +184,19 @@ def modify_activations(model,activation_name,method='normal'):#https://github.co
     # true_layer_list=find_true_layer(model.layers)
     # print(1)
     tmp_model=delete_relu_layer(model)
-    tmp_model_layer_lenth=len(tmp_model.layers)
     # true_layer_list=find_true_layer(tmp_model.layers)
-    not_dense_list=get_not_dense_list(tmp_model)
+    tmp_model_layer_lenth=len(tmp_model.layers)
 
     if method == 'normal':
         if isinstance(activation_name,str):
             activation=getattr(A, activation_name)
-        # for i in range(tmp_model_layer_lenth):
-        #     if ('activation' in tmp_model.layers[i].get_config()) and\
-        #         not_dense_acti(tmp_model,i):
-        #         new_config=copy.deepcopy(tmp_model.layers[i].get_config())
-        #         new_config['activation']=activation
-        #         new_layer=tmp_model.layers[i].__class__(**new_config)
-        #         tmp_model=replace_intermediate_layer_in_keras(tmp_model,i,new_layer)
-        for l in range(tmp_model_layer_lenth):
-            if (hasattr(tmp_model.layers[l],'activation'))==True and not_dense_list[l]:
-                tmp_model.layers[l].activation=activation
+        for i in range(tmp_model_layer_lenth):
+            if ('activation' in tmp_model.layers[i].get_config()) and\
+                not_dense_acti(tmp_model,i):
+                new_config=copy.deepcopy(tmp_model.layers[i].get_config())
+                new_config['activation']=activation
+                new_layer=tmp_model.layers[i].__class__(**new_config)
+                tmp_model=replace_intermediate_layer_in_keras(tmp_model,i,new_layer)
     elif method == 'special':
         act_cls = getattr(L, activation_name)
         i=0
@@ -235,8 +224,8 @@ def modify_activations(model,activation_name,method='normal'):#https://github.co
                 new_layer=tmp_model.layers[i].__class__(**new_config)
                 tmp_model=replace_intermediate_layer_in_keras(tmp_model,i,new_layer)
                 break
-    # model=reload_model(tmp_model)
-    return tmp_model
+    model=reload_model(tmp_model)
+    return model
 
 
 def modify_regularizer(model,kernel_regularizer=l2(0.01),bias_regularizer=l2(0.01)):
