@@ -41,6 +41,6 @@ if __name__ == '__main__':
         overwrite=True,
         max_trials=10,tuner='bayesian')
         # Feed the image classifier with training data.
-        clf.fit(x_train, y_train, epochs=100)
+        clf.fit(x_train, y_train, epochs=15)
 
     print('finish')

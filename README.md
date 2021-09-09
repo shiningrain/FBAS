@@ -19,7 +19,6 @@ tasks in several hours and trials.
     - copy_file.sh            
     - demo.py                  
 - Motivation/                      
-    - Bayesian/
 - ExperimentResults/                      
     - SearchResults15Trials/
 - README.md
@@ -30,7 +29,7 @@ tasks in several hours and trials.
 To install all dependencies, please get into this directory and  run:
 
 ```bash
-$ pip -r requirements.txt
+$ pip install-r requirements.txt
 ```
 
 In addition, since our system is currently implemented based on Auto-Keras, you
@@ -40,6 +39,7 @@ directory. Then
 
 ```bash
 $ cd ./FORM
+$ chmod +x ./copy_file.sh
 $ ./copy_file.sh
 ```
 
@@ -108,15 +108,26 @@ STL-10 dataset.
 
 ## Reproduction
 
-Our experiment data on 4 datasets is saved in [here](xx). It contains the initial model
-architecture for the 36 searches and the search results of each search method in
-experiments.
-In addition, we also share the search log of the experiment with Bayesian search method in
-Motivation [here](./Motivation/bayes_search_log.pkl). You can use the `pickle`
+Our experiment results on 4 datasets is saved in [here](https://drive.google.com/file/d/1_ngnpSQxNEKLoQnfzZp6eutgRMO0lfIp/view?usp=sharing). It contains the initial model
+architecture for the searches and the search results of each search method in
+experiments (the subdir 'Our' in it shows the results of `FORM`).
+It is worth mentioning that, due to the large size of models, we only save parts
+of the best models in the data.
+The rest of the models are saved as the parameter files like `best_param.pkl`, you can use [this code](./ExperimentResults/reproduct_models_from_parameters/reproduce_experiment_model.py) to generate those models.
+
+The search priority of all available actions in current version `FORM` for different conditions are saved in [this
+file](./FORM/utils/priority_pure.pkl), you can use the `pickle`
 lib in python to load it.
+
+In addition, we also share the search log of the experiment with Bayesian search
+method and `FORM` in
+Motivation [here](./Motivation/accuracy_log.pkl). You can also use the `pickle` to load it.
 It shows the best val_accuracy in 100 trials of the search process by Bayesian
 method.
-The code we used to obtain these results is shown [here](./Motivation/motivation.py)
+The code we used to obtain the Bayesian method results is shown
+[here](./Motivation/motivation.py). And you can use [this code](./FORM/demo.py)
+to reproduce our search result. The best models searched by two methods in
+Motivation is shown in the same link with our expeirment results.
 
 If you want to reproduce our experiment, you can use the
 [demo.py](./FORM/demo.py) directly.

@@ -395,7 +395,7 @@ def sort_opt_wgt_dict(opt_wgt_dict,opt_list,threshold=0):
 
 def write_algw(root_dir):
     import subprocess
-    command="/data/zxy/anaconda3/envs/autokeras/bin/python ./utils//get_write_algw.py -d {}" #TODO: your path
+    command=".your_python_interpreter/python ./utils//get_write_algw.py -d {}" #TODO:need to set your your python interpreter path
 
     out_path=os.path.join(root_dir,'algw_out')
     out_file = open(out_path, 'w')

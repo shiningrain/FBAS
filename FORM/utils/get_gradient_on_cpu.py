@@ -19,11 +19,11 @@ print(tensorflow.__version__)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='compute model gradient by cpu')
-    parser.add_argument('--model','-m',default='/data/zxy/DL_autokeras/1Autokeras/test_codes/FBAS/Test_dir/tmp/model.h5', help='model path')# 'auto' 'cust'
-    parser.add_argument('--data_x','-dx',default='/data/zxy/DL_autokeras/1Autokeras/test_codes/FBAS/Test_dir/tmp/x.npy', help='input')# 'auto' 'cust'
-    parser.add_argument('--data_y','-dy',default='/data/zxy/DL_autokeras/1Autokeras/test_codes/FBAS/Test_dir/tmp/y.npy', help='output')# 'auto' 'cust'
+    parser.add_argument('--model','-m',default='./FORM/Test_dir/tmp/model.h5', help='model path')# 'auto' 'cust'
+    parser.add_argument('--data_x','-dx',default='./FORM/Test_dir/tmp/x.npy', help='input')# 'auto' 'cust'
+    parser.add_argument('--data_y','-dy',default='./FORM/Test_dir/tmp/y.npy', help='output')# 'auto' 'cust'
     parser.add_argument('--epoch','-ep',default=0, help='current training epoch')# 'auto' 'cust'
-    parser.add_argument('--save_path','-sp',default='/data/zxy/DL_autokeras/1Autokeras/test_codes/FBAS/Test_dir/tmp/gradient_weight.pkl', help='the path to save gradients and weights')# 'auto' 'cust'
+    parser.add_argument('--save_path','-sp',default='./FORM/Test_dir/tmp/gradient_weight.pkl', help='the path to save gradients and weights')# 'auto' 'cust'
 
 
     args = parser.parse_args()

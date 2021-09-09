@@ -22,14 +22,14 @@ if __name__ == '__main__':
     parser.add_argument('--data','-d',default='cifar100',choices=['cifar10','cifar100','stl'], help='dataset')
     parser.add_argument('--origin_path','-op',default='./Test_dir/demo_origin/param.pkl', help='orgin model architecture path')
     parser.add_argument('--result_root_path','-rrp',default='./Test_dir/demo_result', help='the directory to save results')
-    parser.add_argument('--epoch','-ep',default=10, help='training epoch')
-    parser.add_argument('--trials','-tr',default=15, help='searching trials')
+    parser.add_argument('--epoch','-ep',default=2, help='training epoch')
+    parser.add_argument('--trials','-tr',default=5, help='searching trials')
     
     args = parser.parse_args()
 
     # set the path and generate the directory
     root_path=args.result_root_path
-    tmp_dir=os.path.join(root_path,'log.pkl')
+    tmp_dir=os.path.join(os.path.dirname(os.path.abspath(root_path)),'tmp')
     if os.path.exists(root_path):
         shutil.rmtree(root_path)
         shutil.rmtree(tmp_dir)

@@ -112,7 +112,6 @@ class GreedyOracle(kerastuner.Oracle):
         self.initial_hps = state["initial_hps"]
         self._tried_initial_hps = state["tried_initial_hps"]
 
-    # zxy
     def get_best_trial_id(self):
         best_trials = self.get_best_trials()
         if best_trials:
@@ -171,20 +170,14 @@ class GreedyOracle(kerastuner.Oracle):
         # step 2:# load evaluation results, if not return None,or get the operation and corresponding weights
         # opt_wgt_dict,opt_list=load_evaluation(algw)
         opt_wgt_dict,opt_list=load_evaluation(algw,evaluation_pkl=os.path.abspath('./utils/priority_all.pkl'))
-        time1=time.time()
-        print(time1-start)
+        # time1=time.time()
+        # print(time1-start)
         if opt_wgt_dict==None:
             return None
 
         # step 3:
-        # opt_list=sort_opt_wgt_dict(opt_wgt_dict,opt_list)#our greedy method
-        # values=self.generate_hp_values_greedy(opt_list)
         values=self.generate_hp_values(opt_list)
-        print(time.time()-time1)
         print('================We have generated the values! Ready to TRAIN================')
-        # with open('/data/zxy/DL_autokeras/1Autokeras/test_codes/experiment/cifar_origin/autokeras_7.20_random_8/best_param.pkl', 'rb') as f:#input,bug type,params
-        #     hp = pickle.load(f)
-        # values=hp.values
         return values
 
     def _get_best_action(self,
@@ -194,7 +187,6 @@ class GreedyOracle(kerastuner.Oracle):
                         best_hash_path='./Test_dir/demo_result/hash.pkl',
                         method='normal'):
 
-        # zxy
 
         import os
         import pickle
@@ -339,7 +331,6 @@ class GreedyOracle(kerastuner.Oracle):
 
     
     def generate_hp_values(self,operation_list):
-        # zxy
 
         import os
         import pickle
@@ -364,7 +355,6 @@ class GreedyOracle(kerastuner.Oracle):
                 with open(os.path.abspath(random.choice(optimal_list)), 'rb') as f:#input,bug type,params
                     hp = pickle.load(f)
                 values=hp.values
-                print('===============Use optimal Structure!!===============\n')
                 return values
 
         best_hps = self._get_best_hps()
@@ -404,7 +394,7 @@ class GreedyOracle(kerastuner.Oracle):
                 return None
             self._tried_so_far.add(values_hash)
             break
-        print(trigger_count)
+        # print(trigger_count)
         return values
 
     def generate_hp_values_greedy(self,operation_list):#our greedy method
@@ -442,9 +432,8 @@ class GreedyOracle(kerastuner.Oracle):
             self._tried_so_far.add(values_hash)
             break
         return values
-    # zxy
-    
-    def _select_hps(self):#TODO::
+
+    def _select_hps(self):
         trie = Trie()
         best_hps = self._get_best_hps()
         for hp in best_hps.space:
@@ -496,7 +485,6 @@ class GreedyOracle(kerastuner.Oracle):
     #         "values": None,
     #     }
 
-    #zxy 
     def _populate_space(self, trial_id):
         if not all(self._tried_initial_hps):
             values = self._next_initial_hps()
@@ -524,7 +512,7 @@ class GreedyOracle(kerastuner.Oracle):
             "status": kerastuner.engine.trial.TrialStatus.STOPPED,
             "values": None,
         }
-    # zxy
+
 
     def _get_best_hps(self):
         best_trials = self.get_best_trials()
@@ -590,23 +578,3 @@ class Greedy(tuner_module.AutoTuner):
             allow_new_entries=allow_new_entries,
         )
         super().__init__(oracle=oracle, hypermodel=hypermodel, **kwargs)
-
-# zxy 
-# def judge_dirs(target_dir):
-#     params_path=os.path.join(target_dir,'param.pkl')
-#     gw_path=os.path.join(target_dir,'gradient_weight.pkl')
-#     his_path=os.path.join(target_dir,'history.pkl')
-
-#     with open(params_path, 'rb') as f:#input,bug type,params
-#         hyperparameters = pickle.load(f)
-#     with open(his_path, 'rb') as f:#input,bug type,params
-#         history = pickle.load(f)
-#     with open(gw_path, 'rb') as f:#input,bug type,params
-#         gw = pickle.load(f)
-
-#     arch=get_arch(hyperparameters)
-#     loss=get_loss(history)
-#     grad,wgt=get_gradient(gw)
-    
-
-#     return "{}-{}-{}-{}".format(arch,loss,grad,wgt)
