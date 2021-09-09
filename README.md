@@ -20,7 +20,9 @@ tasks in several hours and trials.
     - demo.py                  
 - Motivation/                      
 - ExperimentResults/                      
-    - SearchResults15Trials/
+    - Effectiveness/
+    - Efficiency/
+    - reproduct_models_from_parameters/
 - README.md
 - requirements.txt
 ```
